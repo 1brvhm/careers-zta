@@ -260,14 +260,6 @@ function LandingNav() {
             <a href="#top" className="no-underline shrink-0 mr-1">
               <LandingWordmark size="sm" />
             </a>
-            <nav className="hidden lg:flex flex-1 items-center justify-center gap-0.5">
-              {links.map((l) => (
-                <a key={l.href} href={l.href}
-                  className="font-body text-[13px] font-medium px-4 py-1.5 rounded-full no-underline text-muted-foreground hover:text-foreground hover:bg-white/[0.06] transition-all duration-150">
-                  {l.label}
-                </a>
-              ))}
-            </nav>
             <div className="ml-auto flex items-center gap-2">
               <Button className={cn(landingPrimaryBtnSm, "hidden lg:flex gap-2")} onClick={() => window.open("https://cal.com/kensho/1-1-ai-discovery-call", "_blank")}>
                 Book a Demo →
