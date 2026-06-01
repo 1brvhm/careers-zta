@@ -233,11 +233,12 @@ function LandingNav() {
     setMenuOpen(true);
   }, []);
 
-  const links: { label: string; id: string }[] = [
-    { label: "Features",     id: "why" },
-    { label: "How it works", id: "how-it-works" },
-    { label: "Integrations", id: "integrations" },
-    { label: "Pricing",      id: "pricing" },
+  const links: { label: string; href: string }[] = [
+    { label: "Features",     href: "#why" },
+    { label: "How it works", href: "#how-it-works" },
+    { label: "Integrations", href: "#integrations" },
+    { label: "Pricing",      href: "#pricing" },
+    { label: "Careers",      href: "/careers" },
   ];
 
   return (
@@ -261,7 +262,7 @@ function LandingNav() {
             </a>
             <nav className="hidden lg:flex flex-1 items-center justify-center gap-0.5">
               {links.map((l) => (
-                <a key={l.id} href={`#${l.id}`}
+                <a key={l.href} href={l.href}
                   className="font-body text-[13px] font-medium px-4 py-1.5 rounded-full no-underline text-muted-foreground hover:text-foreground hover:bg-white/[0.06] transition-all duration-150">
                   {l.label}
                 </a>
@@ -343,16 +344,22 @@ function LandingNav() {
             {/* Nav links */}
             <div className="relative z-10 flex flex-1 flex-col justify-center px-[clamp(28px,6vw,72px)] pb-16">
               {links.map((l, i) => (
-                <motion.a key={l.id}
-                  href={`#${l.id}`}
+                <motion.a key={l.href}
+                  href={l.href}
                   onClick={(e) => {
-                    e.preventDefault();
-                    // Restore scroll before navigating so the page can actually scroll
-                    document.body.style.overflow = "";
-                    setMenuOpen(false);
-                    requestAnimationFrame(() => {
-                      document.getElementById(l.id)?.scrollIntoView({ behavior: "smooth" });
-                    });
+                    if (l.href.startsWith("#")) {
+                      e.preventDefault();
+                      // Restore scroll before navigating so the page can actually scroll
+                      document.body.style.overflow = "";
+                      setMenuOpen(false);
+                      requestAnimationFrame(() => {
+                        document.getElementById(l.href.slice(1))?.scrollIntoView({ behavior: "smooth" });
+                      });
+                    } else {
+                      // Route navigation — restore scroll and let the browser navigate
+                      document.body.style.overflow = "";
+                      setMenuOpen(false);
+                    }
                   }}
                   initial={{ opacity: 0, y: 28 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -420,6 +427,9 @@ function Hero() {
           </Button>
           <Button variant="outline" className={cn(landingOutlineBtn, "gap-2.5")} onClick={() => window.open("https://www.zerotoagent.com/cao-intake", "_blank")}>
             See how it works
+          </Button>
+          <Button variant="outline" className={cn(landingOutlineBtn, "gap-2.5")} onClick={() => window.open("/careers", "_self")}>
+            Careers
           </Button>
         </div>
 
